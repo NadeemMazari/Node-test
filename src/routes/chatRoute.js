@@ -8,7 +8,7 @@ route.post('/getMyChat',auth,getMyChat );
 route.put('/deleteForMe/:messageId',auth,deleteForMe );
 route.put('/deleteForEveryOne/:messageId',auth,deleteForEveryOne );
 route.get('/search/:search',auth,search );
-route.get('/chatList',auth,chatList );
+route.get('/chatList',auth,chatList);
 
 module.exports= route;
 

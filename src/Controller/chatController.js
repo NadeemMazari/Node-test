@@ -109,7 +109,7 @@ chatList = async (req, res) => {
     let token = req.headers.authorization;
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
     let userId = decodedToken._id;
-    let chatList = chatModel.aggregate([
+    let chatList = await chatModel.aggregate([
       {
         $match: {
           $or: [
@@ -118,6 +118,7 @@ chatList = async (req, res) => {
           ],
         },
       },
+     
     ]);
 
     res
