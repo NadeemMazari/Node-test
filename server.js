@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({ secret: process.env.SECRET, resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
-
+var flash = require('connect-flash');
 app.use(bodyParser.json());
 
 app.use(
@@ -28,7 +28,6 @@ app.use(
     origin: process.env.ALLOW_ORIGIN ?? "*",
   })
 );
-
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
   cors: {
@@ -50,7 +49,7 @@ io.on("connection", async (socket) => {
 
 app.use("/api", userRoute);
 app.use("/api", chatRoute);
-
+app.use(flash());
 
 server.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
