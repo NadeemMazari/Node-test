@@ -113,12 +113,17 @@ chatList = async (req, res) => {
       {
         $match: {
           $or: [
-            { fromUserId: new ObjectId(userId) },
-            { toUserId: new ObjectId(userId) },
+            { fromUserId: new ObjectId(userId)},
+            { toUserId: new ObjectId(userId)},
           ],
         },
       },
     ]);
+
+    res
+    .status(200)
+    .json({ isSuccess: true, data: chatList, message:'get chat list successfully' });
+
   } catch (error) {
     res
       .status(404)
@@ -222,5 +227,6 @@ module.exports = {
   getMyChat,
   deleteForMe,
   deleteForEveryOne,
-  search
+  search,
+  chatList
 };

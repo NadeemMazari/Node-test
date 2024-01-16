@@ -1,8 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const userModel = require("../schema/userSchema");
-const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
+
 
 const signup = async (req, res) => {
   try {

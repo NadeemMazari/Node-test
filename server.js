@@ -1,15 +1,25 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const userRoute = require("./src/routes/userRoute.js");
 const chatRoute = require("./src/routes/chatRoute.js");
 const bodyParser = require("body-parser");
+const passport = require('passport');
 const cors = require("cors");
 const http = require("http");
 require("dotenv").config();
 const { createMessage } = require("./src/Controller/chatController.js");
+
 const app = express();
-mongoose.connect(process.env.MONGODB_URL, {});
+const {mongoConnection}=require('./src/database.js')
+const {initializingPassport}=require('./src/passport.js')
 const PORT = +process.env.PORT || 3000;
+mongoConnection()
+initializingPassport(passport)
+
+const session = require('express-session');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(session({ secret: process.env.SECRET, resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(bodyParser.json());
 
@@ -40,6 +50,7 @@ io.on("connection", async (socket) => {
 
 app.use("/api", userRoute);
 app.use("/api", chatRoute);
+
 
 server.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
